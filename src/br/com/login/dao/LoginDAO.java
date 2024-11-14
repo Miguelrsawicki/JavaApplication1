@@ -42,10 +42,33 @@ public class LoginDAO {
           conexao.close();
     }
     
-    public void ordemServico(Integer id, Integer numeroos, Date dataos, Text status, Text equipamento, Text defeito, Text servico, Text tecnico, String cliente) throws SQLException{
+    public void ordemServico(Integer idos, Integer numeroos, Date dataos, Text status, Text equipamento, Text defeito, Text servico, Text tecnico, String cliente) throws SQLException{
         Connection conexao= new Conexao().getConnection();
-        
+        String sql = "INSERT INTO ordem (idos, numeroos, dataos, status, equipamento, defeito, servico, tecnico, cliente) VALUES ('"+idors+"','"+numos+"','"+datos+"','"+statos+"','"+equipos+"','"+defeitoos+"','"+servicoos+"','"+tecnicoos+"','"+clienteos"',)";
+        PreparedStatement statement = conexao.prepareStatement(sql);
+        conexao.close();
     }
+    
+    public void editarOrdem(Integer idos, Integer numeroos, Date dataos, Text status, Text equipamento, Text defeito, Text servico, Text tecnico, String cliente) throws SQLException{
+        Connection conexao= new Conexao().getConnection();
+       try(PreparedStatement statement = conexao.prepareStatement(sql))
+       {
+            String sql = "UPDATE ordem SET id = '"+idors+"' Where numeroos ="+numos+",";
+            String sql = "UPDATE ordem SET id = '"+idors+"' Where dataos="+datos+",";
+            String sql = "UPDATE ordem SET id = '"+idors+"' Where status="+statos+",";
+            String sql = "UPDATE ordem SET id = '"+idors+"' Where equipamento="+equipos+",";
+            String sql = "UPDATE ordem SET id = '"+idors+"' Where defeito="+defeitos+",";
+            String sql = "UPDATE ordem SET id = '"+idors+"' Where servico="+servicoos+",";
+            String sql = "UPDATE ordem SET id = '"+idors+"' Where tecnico="+tecnicoos+",";
+            String sql = "UPDATE ordem SET id = '"+idors+"' Where cliente="+clienteos+",";
+            
+       }
+        
+        
+        conexao.close();
+    }
+    
+    
 
     public void login(JTextField usuariolog) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
