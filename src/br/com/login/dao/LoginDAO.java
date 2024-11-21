@@ -4,6 +4,7 @@
  */
 package br.com.login.dao;
 
+import br.com.login.dao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,6 +12,16 @@ import java.sql.ResultSet;
 import java.util.Date;
 import javax.swing.JTextField;
 import org.w3c.dom.Text;
+
+        String clienteos;
+        String datos;
+        String defeitoos;
+        String equipos;
+        String idors;
+        String numos;
+        String servicoos;
+        String statos;
+        String tecnicoos;
 /**
  *
  * @author MiguelAspire5
@@ -44,6 +55,7 @@ public class LoginDAO {
     
     public void ordemServico(Integer idos, Integer numeroos, Date dataos, Text status, Text equipamento, Text defeito, Text servico, Text tecnico, String cliente) throws SQLException{
         Connection conexao= new Conexao().getConnection();
+       
         String sql = "INSERT INTO ordem (idos, numeroos, dataos, status, equipamento, defeito, servico, tecnico, cliente) VALUES ('"+idors+"','"+numos+"','"+datos+"','"+statos+"','"+equipos+"','"+defeitoos+"','"+servicoos+"','"+tecnicoos+"','"+clienteos"',)";
         PreparedStatement statement = conexao.prepareStatement(sql);
         conexao.close();
@@ -51,20 +63,8 @@ public class LoginDAO {
     
     public void editarOrdem(Integer idos, Integer numeroos, Date dataos, Text status, Text equipamento, Text defeito, Text servico, Text tecnico, String cliente) throws SQLException{
         Connection conexao= new Conexao().getConnection();
-       try(PreparedStatement statement = conexao.prepareStatement(sql))
-       {
-            String sql = "UPDATE ordem SET id = '"+idors+"' Where numeroos ="+numos+",";
-            String sql = "UPDATE ordem SET id = '"+idors+"' Where dataos="+datos+",";
-            String sql = "UPDATE ordem SET id = '"+idors+"' Where status="+statos+",";
-            String sql = "UPDATE ordem SET id = '"+idors+"' Where equipamento="+equipos+",";
-            String sql = "UPDATE ordem SET id = '"+idors+"' Where defeito="+defeitos+",";
-            String sql = "UPDATE ordem SET id = '"+idors+"' Where servico="+servicoos+",";
-            String sql = "UPDATE ordem SET id = '"+idors+"' Where tecnico="+tecnicoos+",";
-            String sql = "UPDATE ordem SET id = '"+idors+"' Where cliente="+clienteos+",";
-            
-       }
-        
-        
+        String sql = "ALTER TABLE ordem (idos, numeroos, dataos, status, equipamento, defeito, servico, tecnico, cliente) VALUES ('"+idors+"','"+numos+"','"+datos+"','"+statos+"','"+equipos+"','"+defeitoos+"','"+servicoos+"','"+tecnicoos+"','"+clienteos"',)";
+        PreparedStatement statement = conexao.prepareStatement(sql);
         conexao.close();
     }
     
