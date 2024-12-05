@@ -17,7 +17,7 @@ public class OrdemServico {
     Date dataos;
     Text status, equipamento, defeito, servico, tecnico,  cliente;
     
-    public ordem(Integer idos, Integer numeroos, Date dataos, Text status, Text equipamento, Text defeito, Text servico, Text tecnico, Text cliente)
+    public OrdemServico( Integer idos, Integer numeroos, Date dataos, Text status, Text equipamento, Text defeito, Text servico, Text tecnico, Text cliente)
     {
         this.idos = idos;
         this.numeroos = numeroos;

@@ -4,6 +4,9 @@
  */
 package javaapplication1;
 
+import br.com.views.TelaLogin;
+import javax.swing.JFrame;
+
 /**
  *
  * @author MiguelAspire5
@@ -14,7 +17,24 @@ public class JavaApplication1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+         // Cria uma nova instância do JFrame
+        JFrame frame = new JFrame("Tela de Login");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        // Cria uma nova instância da TelaLogin
+        TelaLogin telaLogin = new TelaLogin();
+        
+        // Adiciona a TelaLogin ao JFrame
+        frame.add(telaLogin);
+        
+        // Ajusta o tamanho do frame para caber o conteúdo
+        frame.pack();
+        
+        // Centraliza o frame na tela
+        frame.setLocationRelativeTo(null);
+        
+        // Torna o frame visível
+        frame.setVisible(true);
     }
     
 }
