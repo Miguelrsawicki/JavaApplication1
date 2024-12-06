@@ -59,7 +59,7 @@ public class TelaPrincipal extends javax.swing.JPanel {
         panelTela.setLayout(panelTelaLayout);
         panelTelaLayout.setHorizontalGroup(
             panelTelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 503, Short.MAX_VALUE)
+            .addGap(0, 509, Short.MAX_VALUE)
         );
         panelTelaLayout.setVerticalGroup(
             panelTelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,12 +171,12 @@ public class TelaPrincipal extends javax.swing.JPanel {
             .addGroup(molduraInternaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelTela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(molduraInternaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(molduraInternaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(molduraInternaLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(HAL9000, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(HAL9000, javax.swing.GroupLayout.PREFERRED_SIZE, 221, Short.MAX_VALUE)
+                        .addGap(8, 8, 8)))
                 .addContainerGap())
         );
         molduraInternaLayout.setVerticalGroup(
@@ -186,8 +186,8 @@ public class TelaPrincipal extends javax.swing.JPanel {
                 .addGroup(molduraInternaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panelTela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(molduraInternaLayout.createSequentialGroup()
-                        .addComponent(HAL9000, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(147, 147, 147)
+                        .addComponent(HAL9000, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
