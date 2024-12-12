@@ -4,6 +4,7 @@
  */
 package javaapplication1;
 
+import br.com.views.TelaCliente;
 import br.com.views.TelaLogin;
 import javax.swing.JFrame;
 
@@ -22,10 +23,10 @@ public class JavaApplication1 {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // Cria uma nova instância da TelaLogin
-        TelaLogin telaLogin = new TelaLogin();
+        TelaCliente telaCliente = new TelaCliente();
         
         // Adiciona a TelaLogin ao JFrame
-        frame.add(telaLogin);
+        frame.add(telaCliente);
         
         // Ajusta o tamanho do frame para caber o conteúdo
         frame.pack();

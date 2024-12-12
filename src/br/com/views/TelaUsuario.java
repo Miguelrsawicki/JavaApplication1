@@ -51,25 +51,14 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     String sql = "INSERT INTO usuario (idusuario, nomeusuario, telefoneusuario, loginusuario, senhausuario, perfil) VALUES(?,?,?,?,?,?)";
     PreparedStatement pst = null; // Inicializa a variável pst
     try {
-        // Tente converter o ID para inteiro
-        int idUsuario = Integer.parseInt(txtId.getText().trim()); // Converte o texto do JTextField para um inteiro
-        
-        // Prepare a instrução SQL
+        int idUsuario = Integer.parseInt(txtId.getText().trim());
         pst = conexao.prepareStatement(sql);
-        
-        // Use setInt para o ID
         pst.setInt(1, idUsuario);
         
-        // Definindo os outros parâmetros como strings
         pst.setString(2, txtNome.getText());
-        
-        // Validação e conversão do telefone
         String telefoneStr = txtTelefone.getText().trim();
-        if (!telefoneStr.matches("\\d+")) { // Verifica se o telefone contém apenas dígitos
-            throw new NumberFormatException("O telefone deve conter apenas números.");
-        }
-        BigDecimal telefoneUsuario = new BigDecimal(telefoneStr);
-        pst.setBigDecimal(3, telefoneUsuario);
+            BigDecimal telefoneUsuario = new BigDecimal(telefoneStr);
+                pst.setBigDecimal(3, telefoneUsuario);
         pst.setString(4, txtLogin.getText());
         pst.setString(5, txtSenha.getText());
         pst.setString(6, cbxPerfil.getSelectedItem().toString());
@@ -122,6 +111,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             pst.setInt(6, idUsuario);
             
             pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");
         } catch(NumberFormatException e){
             System.out.println("Erro do Id");
         }
@@ -137,7 +127,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             int idUsuario = Integer.parseInt(txtId.getText().trim());
             pst.setInt(1,idUsuario);
             pst.executeUpdate();
-            
+            JOptionPane.showMessageDialog(null, "Usuário excluido com sucesso!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }

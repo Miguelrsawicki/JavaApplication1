@@ -205,7 +205,9 @@ public class TelaPrincipal extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menClienteActionPerformed
-        // TODO add your handling code here:
+        TelaCliente cliente = new TelaCliente();
+        cliente.setVisible(true);
+        panelTela.add(cliente);
     }//GEN-LAST:event_menClienteActionPerformed
 
     private void menSair2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSair2ActionPerformed
@@ -216,7 +218,7 @@ public class TelaPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_menSair2ActionPerformed
 
     private void menCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadastroActionPerformed
-        
+     
     }//GEN-LAST:event_menCadastroActionPerformed
 
     private void menUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menUsuarioActionPerformed
