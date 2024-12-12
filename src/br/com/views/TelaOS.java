@@ -105,7 +105,7 @@ private void cadastrar() {
             pst.setString(6, txtTecnico.getText());
             int valor = Integer.parseInt(txtValor.getText().trim());
             pst.setInt(7, valor);
-            int idCli = Integer.parseInt(txtCliente.getText().trim());
+            int idCli = Integer.parseInt(txtIdClient.getText().trim());
             pst.setInt(8, idCli);
             
             int id = Integer.parseInt(txtId.getText().trim());
@@ -136,7 +136,7 @@ private void cadastrar() {
                 txtServico.setText(rs.getString(6));
                 txtTecnico.setText(rs.getString(7));
                 txtValor.setText(rs.getString(8));
-                txtCliente.setText(rs.getString(9));
+                txtIdClient.setText(rs.getString(9));
                 
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário não encontrado");
@@ -485,7 +485,7 @@ private void cadastrar() {
     }//GEN-LAST:event_txtStatusActionPerformed
 
     private void btxConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxConsultarActionPerformed
-        // TODO add your handling code here:
+        consultar();        // TODO add your handling code here:
     }//GEN-LAST:event_btxConsultarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
