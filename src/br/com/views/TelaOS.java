@@ -5,16 +5,11 @@
 package br.com.views;
 
 import br.com.login.dal.Conexao;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 /**
  *
@@ -66,7 +61,7 @@ private void cadastrar() {
         */
         pst.executeUpdate();
         
-        JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso!");
+        JOptionPane.showMessageDialog(null, "Ordem adicionada com sucesso!");
     } catch (NumberFormatException e) {
         // Captura exceção se a conversão do ID ou telefone falhar
         JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
@@ -112,7 +107,7 @@ private void cadastrar() {
             pst.setInt(9, id);
             
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Ordem alterada com sucesso!");
         } catch(NumberFormatException e){
             System.out.println("Erro do Id");
         }
@@ -139,13 +134,25 @@ private void cadastrar() {
                 txtIdClient.setText(rs.getString(9));
                 
             } else {
-                JOptionPane.showMessageDialog(null, "Usuário não encontrado");
+                JOptionPane.showMessageDialog(null, "Ordem não encontrada");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-
+    
+    private void excluir(){
+        String sql="DELETE FROM ordem WHERE idos=?";
+        try {
+            pst=conexao.prepareStatement(sql);
+            int idOrdem = Integer.parseInt(txtId.getText().trim());
+            pst.setInt(1,idOrdem);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Ordem excluida com sucesso!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -489,7 +496,7 @@ private void cadastrar() {
     }//GEN-LAST:event_btxConsultarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
-                // TODO add your handling code here:
+        excluir();                // TODO add your handling code here:
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
@@ -510,6 +517,7 @@ private void cadastrar() {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
+
         alterar();        // TODO add your handling code here:
     }//GEN-LAST:event_btnSalvaActionPerformed
 

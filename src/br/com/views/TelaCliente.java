@@ -87,9 +87,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             if (rs.next()) {
                 txtId.setText(rs.getString(1));
                 txtNome.setText(rs.getString(2));
-                txtEndereco.setText(rs.getString(3));
+                txtEmail.setText(rs.getString(3));
                 txtFone.setText(rs.getString(4));
-                txtEmail.setText(rs.getString(5));
+                txtEndereco.setText(rs.getString(5));
                 
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário não encontrado");
@@ -122,6 +122,19 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             System.out.println("Erro do Id");
         }
         catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    private void excluir(){
+        String sql="DELETE FROM cliente WHERE idcliente=?";
+        try {
+            pst=conexao.prepareStatement(sql);
+            int idCliente = Integer.parseInt(txtId.getText().trim());
+            pst.setInt(1,idCliente);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Ordem excluida com sucesso!");
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -340,7 +353,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+        excluir();        // TODO add your handling code here:
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
