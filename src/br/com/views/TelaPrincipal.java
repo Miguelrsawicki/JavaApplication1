@@ -130,6 +130,11 @@ public class TelaPrincipal extends javax.swing.JPanel {
 
         menOS.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menOS.setText("OS");
+        menOS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menOSActionPerformed(evt);
+            }
+        });
         menCadastro.add(menOS);
 
         menUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_DOWN_MASK));
@@ -226,6 +231,12 @@ public class TelaPrincipal extends javax.swing.JPanel {
         usuario.setVisible(true);
         panelTela.add(usuario);
     }//GEN-LAST:event_menUsuarioActionPerformed
+
+    private void menOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menOSActionPerformed
+        TelaOS os = new TelaOS();
+        os.setVisible(true);
+        panelTela.add(os);
+    }//GEN-LAST:event_menOSActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

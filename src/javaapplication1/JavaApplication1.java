@@ -23,10 +23,10 @@ public class JavaApplication1 {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // Cria uma nova instância da TelaLogin
-        TelaCliente telaCliente = new TelaCliente();
+        TelaLogin TelaLogin = new TelaLogin();
         
         // Adiciona a TelaLogin ao JFrame
-        frame.add(telaCliente);
+        frame.add(TelaLogin);
         
         // Ajusta o tamanho do frame para caber o conteúdo
         frame.pack();

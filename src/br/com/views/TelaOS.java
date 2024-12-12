@@ -4,19 +4,115 @@
  */
 package br.com.views;
 
+import br.com.login.dal.Conexao;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author MiguelAspire5
  */
 public class TelaOS extends javax.swing.JInternalFrame {
 
+    Connection conexao=null;
+     PreparedStatement pst=null;
+     ResultSet rs=null;
     /**
      * Creates new form TelaOS
      */
     public TelaOS() {
         initComponents();
+        conexao = Conexao.conector();
     }
 
+private void cadastrar() {
+    String sql = "INSERT INTO ordem (idos, numeroos, dataos, status, equipamento, defeito, servico, tecnico, valor, cliente) VALUES(?,?,?,?,?,?,?,?,?,?)";
+    PreparedStatement pst = null; // Inicializa a variável pst
+    try {
+        pst = conexao.prepareStatement(sql);
+        
+        int id = Integer.parseInt(txtId.getText().trim());
+        pst.setInt(1, id);
+        
+        int os = Integer.parseInt(txtNum.getText().trim());
+        pst.setInt(2, os);
+        
+        pst.setString(3, txtData.getText());
+        pst.setString(4, txtStatus.getText());
+        pst.setString(5, txtEquipamento.getText());
+        pst.setString(6, txtDefeito.getText());
+        pst.setString(7, txtServico.getText());
+        pst.setString(8, txtTecnico.getText());
+        pst.setString(9, txtValor.getText());
+        pst.setString(10, txtCliente.getText());
+        
+        /*código para obrigar a preencher os campos
+        if ((txtId.getText().isEmpty()) || (txtNome.getText().isEmpty())||(txttelefone.getGText().isEmpty())|| {
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos");
+        } else {
+        }        
+        
+        */
+        pst.executeUpdate();
+        
+        JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso!");
+    } catch (NumberFormatException e) {
+        // Captura exceção se a conversão do ID ou telefone falhar
+        JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
+    } catch (SQLException e) {
+        // Captura exceção se houver um erro de SQL
+        JOptionPane.showMessageDialog(null, "Erro ao acessar o banco de dados: " + e.getMessage());
+    } catch (Exception e) {
+        // Captura qualquer outra exceção
+        JOptionPane.showMessageDialog(null, e);
+    } finally {
+        // Fecha o PreparedStatement se não for nulo
+        try {
+            if (pst != null) pst.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+}
+    
+    private void  alterar(){
+        String sql="UPDATE ordem SET numeroos=?, dataos=?, status=?, equipamento=?, defeito=?, servico=?, tecnico=?, valor=?, cliente=? WHERE idos=?";
+        try {
+            
+            pst=conexao.prepareStatement(sql);
+            
+            
+            
+           
+            int numero = Integer.parseInt(txtNum.getText().trim());
+            pst.setInt(1, numero);
+            pst.setString(2, txtData.getText());
+            pst.setString(3, txtStatus.getText());
+            pst.setString(4, txtEquipamento.getText());
+            pst.setString(5, txtDefeito.getText());
+            pst.setString(6, txtServico.getText());
+            pst.setString(7, txtTecnico.getText());
+            pst.setString(8, txtValor.getText());
+            pst.setString(9, txtCliente.getText());
+            
+            int id = Integer.parseInt(txtId.getText().trim());
+            pst.setInt(10, id);
+            
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");
+        } catch(NumberFormatException e){
+            System.out.println("Erro do Id");
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,9 +126,8 @@ public class TelaOS extends javax.swing.JInternalFrame {
         txtEquipamento = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtStatus = new javax.swing.JTextField();
-        slcTecnico = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        botaoEditar = new javax.swing.JButton();
+        btxConsultar = new javax.swing.JButton();
         txtDefeito = new javax.swing.JTextField();
         botaoExcluir = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -40,7 +135,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         txtServico = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        txtIdCliente = new javax.swing.JTextField();
+        txtCliente = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabela = new javax.swing.JTable();
@@ -50,12 +145,17 @@ public class TelaOS extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtNumOrd = new javax.swing.JTextField();
+        txtNum = new javax.swing.JTextField();
         txtData = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
-        decimalValor = new javax.swing.JTextField();
+        txtValor = new javax.swing.JTextField();
         btnSalva = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtTecnico = new javax.swing.JTextField();
+
+        setClosable(true);
 
         botaoRegistrar.setText("Registrar");
         botaoRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -80,10 +180,10 @@ public class TelaOS extends javax.swing.JInternalFrame {
 
         jLabel6.setText("*Defeito");
 
-        botaoEditar.setText("Editar");
-        botaoEditar.addActionListener(new java.awt.event.ActionListener() {
+        btxConsultar.setText("Consultar");
+        btxConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoEditarActionPerformed(evt);
+                btxConsultarActionPerformed(evt);
             }
         });
 
@@ -103,9 +203,9 @@ public class TelaOS extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        txtIdCliente.addActionListener(new java.awt.event.ActionListener() {
+        txtCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdClienteActionPerformed(evt);
+                txtClienteActionPerformed(evt);
             }
         });
 
@@ -139,11 +239,11 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                        .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textoIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textoIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -151,7 +251,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(textoIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -169,9 +269,9 @@ public class TelaOS extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Data");
 
-        txtNumOrd.addActionListener(new java.awt.event.ActionListener() {
+        txtNum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumOrdActionPerformed(evt);
+                txtNumActionPerformed(evt);
             }
         });
 
@@ -194,7 +294,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(txtNumOrd, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNum, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -217,7 +317,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNumOrd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox1)
@@ -226,6 +326,8 @@ public class TelaOS extends javax.swing.JInternalFrame {
         );
 
         btnSalva.setText("Salvar");
+
+        jLabel11.setText("ID:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -245,26 +347,34 @@ public class TelaOS extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtDefeito, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(slcTecnico, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtTecnico)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(decimalValor, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtStatus)
                             .addComponent(txtServico)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(botaoRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(botaoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(botaoExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSalva, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(botaoRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btxConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(botaoExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSalva, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -280,7 +390,13 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,27 +415,26 @@ public class TelaOS extends javax.swing.JInternalFrame {
                     .addComponent(txtServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(slcTecnico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel9)
-                        .addComponent(decimalValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalva, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(botaoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btxConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(botaoRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(botaoExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRegistrarActionPerformed
-        // TODO add your handling code here:
+        cadastrar();
     }//GEN-LAST:event_botaoRegistrarActionPerformed
 
     private void txtEquipamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEquipamentoActionPerformed
@@ -330,26 +445,26 @@ public class TelaOS extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStatusActionPerformed
 
-    private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
+    private void btxConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btxConsultarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_botaoEditarActionPerformed
+    }//GEN-LAST:event_btxConsultarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
-    private void txtIdClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdClienteActionPerformed
+    private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdClienteActionPerformed
+    }//GEN-LAST:event_txtClienteActionPerformed
 
     private void textoIdClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoIdClientActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textoIdClientActionPerformed
 
-    private void txtNumOrdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumOrdActionPerformed
+    private void txtNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumActionPerformed
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_txtNumOrdActionPerformed
+    }//GEN-LAST:event_txtNumActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
@@ -358,15 +473,15 @@ public class TelaOS extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Tabela;
-    private javax.swing.JButton botaoEditar;
     private javax.swing.JButton botaoExcluir;
     private javax.swing.JButton botaoRegistrar;
     private javax.swing.JButton btnSalva;
-    private javax.swing.JTextField decimalValor;
+    private javax.swing.JButton btxConsultar;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -378,14 +493,16 @@ public class TelaOS extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JComboBox<String> slcTecnico;
     private javax.swing.JTextField textoIdClient;
+    private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtData;
     private javax.swing.JTextField txtDefeito;
     private javax.swing.JTextField txtEquipamento;
-    private javax.swing.JTextField txtIdCliente;
-    private javax.swing.JTextField txtNumOrd;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNum;
     private javax.swing.JTextField txtServico;
     private javax.swing.JTextField txtStatus;
+    private javax.swing.JTextField txtTecnico;
+    private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }
