@@ -129,6 +129,21 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
+    private void excluir(){
+        String sql="DELETE FROM usuario WHERE idusuario=?";
+        try {
+            pst=conexao.prepareStatement(sql);
+            int idUsuario = Integer.parseInt(txtId.getText().trim());
+            pst.setInt(1,idUsuario);
+            pst.executeUpdate();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -303,7 +318,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+    excluir();        // TODO add your handling code here:
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
