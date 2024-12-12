@@ -235,7 +235,7 @@
                           <EmptySpace pref="90" max="32767" attributes="0"/>
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="textoIdClient" min="-2" pref="76" max="-2" attributes="0"/>
+                          <Component id="txtIdClient" min="-2" pref="76" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -249,7 +249,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textoIdClient" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtIdClient" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane2" pref="120" max="32767" attributes="0"/>
@@ -290,9 +290,9 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JTextField" name="textoIdClient">
+        <Component class="javax.swing.JTextField" name="txtIdClient">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textoIdClientActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdClientActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -406,8 +406,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnSalva">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Salvar"/>
+        <Property name="text" type="java.lang.String" value="Alterar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtId">
     </Component>

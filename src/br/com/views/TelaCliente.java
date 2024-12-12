@@ -184,7 +184,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        btnSalvar.setText("Salvar");
+        btnSalvar.setText("Alterar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);

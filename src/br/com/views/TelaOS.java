@@ -5,12 +5,16 @@
 package br.com.views;
 
 import br.com.login.dal.Conexao;
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -30,7 +34,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
     }
 
 private void cadastrar() {
-    String sql = "INSERT INTO ordem (idos, numeroos, dataos, status, equipamento, defeito, servico, tecnico, valor, cliente) VALUES(?,?,?,?,?,?,?,?,?,?)";
+    String sql = "INSERT INTO ordem (idos, numeroos, status, equipamento, defeito, servico, tecnico, valor, cliente) VALUES(?,?,?,?,?,?,?,?,?)";
     PreparedStatement pst = null; // Inicializa a variável pst
     try {
         pst = conexao.prepareStatement(sql);
@@ -40,15 +44,18 @@ private void cadastrar() {
         
         int os = Integer.parseInt(txtNum.getText().trim());
         pst.setInt(2, os);
-        
-        pst.setString(3, txtData.getText());
-        pst.setString(4, txtStatus.getText());
-        pst.setString(5, txtEquipamento.getText());
-        pst.setString(6, txtDefeito.getText());
-        pst.setString(7, txtServico.getText());
-        pst.setString(8, txtTecnico.getText());
-        pst.setString(9, txtValor.getText());
-        pst.setString(10, txtCliente.getText());
+        /*java.util.Date utilDate = sdf.parse(txtData);
+        Date data = new Date(utilDate.getTime());
+        pst.setString(3, data);*/
+        pst.setString(3, txtStatus.getText());
+        pst.setString(4, txtEquipamento.getText());
+        pst.setString(5, txtDefeito.getText());
+        pst.setString(6, txtServico.getText());
+        pst.setString(7, txtTecnico.getText());
+        int valor = Integer.parseInt(txtValor.getText().trim());
+        pst.setInt(8, valor);
+        int cliente = Integer.parseInt(txtIdClient.getText().trim());
+        pst.setInt(9, cliente);
         
         /*código para obrigar a preencher os campos
         if ((txtId.getText().isEmpty()) || (txtNome.getText().isEmpty())||(txttelefone.getGText().isEmpty())|| {
@@ -80,7 +87,7 @@ private void cadastrar() {
 }
     
     private void  alterar(){
-        String sql="UPDATE ordem SET numeroos=?, dataos=?, status=?, equipamento=?, defeito=?, servico=?, tecnico=?, valor=?, cliente=? WHERE idos=?";
+        String sql="UPDATE ordem SET numeroos=?, status=?, equipamento=?, defeito=?, servico=?, tecnico=?, valor=?, cliente=? WHERE idos=?";
         try {
             
             pst=conexao.prepareStatement(sql);
@@ -90,17 +97,19 @@ private void cadastrar() {
            
             int numero = Integer.parseInt(txtNum.getText().trim());
             pst.setInt(1, numero);
-            pst.setString(2, txtData.getText());
-            pst.setString(3, txtStatus.getText());
-            pst.setString(4, txtEquipamento.getText());
-            pst.setString(5, txtDefeito.getText());
-            pst.setString(6, txtServico.getText());
-            pst.setString(7, txtTecnico.getText());
-            pst.setString(8, txtValor.getText());
-            pst.setString(9, txtCliente.getText());
+            //pst.setString(2, txtData.getText());
+            pst.setString(2, txtStatus.getText());
+            pst.setString(3, txtEquipamento.getText());
+            pst.setString(4, txtDefeito.getText());
+            pst.setString(5, txtServico.getText());
+            pst.setString(6, txtTecnico.getText());
+            int valor = Integer.parseInt(txtValor.getText().trim());
+            pst.setInt(7, valor);
+            int idCli = Integer.parseInt(txtCliente.getText().trim());
+            pst.setInt(8, idCli);
             
             int id = Integer.parseInt(txtId.getText().trim());
-            pst.setInt(10, id);
+            pst.setInt(9, id);
             
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");
@@ -108,6 +117,31 @@ private void cadastrar() {
             System.out.println("Erro do Id");
         }
         catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    private void consultar(){
+        String sql = "SELECT * FROM ordem WHERE idos = ?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            int idOS = Integer.parseInt(txtId.getText());
+            pst.setInt(1, idOS);
+            rs=pst.executeQuery();
+            if (rs.next()) {
+                txtNum.setText(rs.getString(2));
+                //txtData.setText(rs.getString(3));
+                txtStatus.setText(rs.getString(3));
+                txtEquipamento.setText(rs.getString(4));
+                txtDefeito.setText(rs.getString(5));
+                txtServico.setText(rs.getString(6));
+                txtTecnico.setText(rs.getString(7));
+                txtValor.setText(rs.getString(8));
+                txtCliente.setText(rs.getString(9));
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário não encontrado");
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -139,7 +173,7 @@ private void cadastrar() {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabela = new javax.swing.JTable();
-        textoIdClient = new javax.swing.JTextField();
+        txtIdClient = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -224,9 +258,9 @@ private void cadastrar() {
         ));
         jScrollPane2.setViewportView(Tabela);
 
-        textoIdClient.addActionListener(new java.awt.event.ActionListener() {
+        txtIdClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textoIdClientActionPerformed(evt);
+                txtIdClientActionPerformed(evt);
             }
         });
 
@@ -243,7 +277,7 @@ private void cadastrar() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textoIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -253,7 +287,7 @@ private void cadastrar() {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(textoIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                 .addContainerGap())
@@ -325,7 +359,12 @@ private void cadastrar() {
                 .addGap(14, 14, 14))
         );
 
-        btnSalva.setText("Salvar");
+        btnSalva.setText("Alterar");
+        btnSalva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvaActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("ID:");
 
@@ -450,16 +489,16 @@ private void cadastrar() {
     }//GEN-LAST:event_btxConsultarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
-        // TODO add your handling code here:
+                // TODO add your handling code here:
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtClienteActionPerformed
 
-    private void textoIdClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoIdClientActionPerformed
+    private void txtIdClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdClientActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textoIdClientActionPerformed
+    }//GEN-LAST:event_txtIdClientActionPerformed
 
     private void txtNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumActionPerformed
         // TODO add your handling code here:
@@ -469,6 +508,10 @@ private void cadastrar() {
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
+        alterar();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalvaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -493,12 +536,12 @@ private void cadastrar() {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField textoIdClient;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtData;
     private javax.swing.JTextField txtDefeito;
     private javax.swing.JTextField txtEquipamento;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtIdClient;
     private javax.swing.JTextField txtNum;
     private javax.swing.JTextField txtServico;
     private javax.swing.JTextField txtStatus;
