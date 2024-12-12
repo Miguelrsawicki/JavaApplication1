@@ -74,16 +74,12 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         
         JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso!");
     } catch (NumberFormatException e) {
-        // Captura exceção se a conversão do ID ou telefone falhar
         JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
     } catch (SQLException e) {
-        // Captura exceção se houver um erro de SQL
         JOptionPane.showMessageDialog(null, "Erro ao acessar o banco de dados: " + e.getMessage());
     } catch (Exception e) {
-        // Captura qualquer outra exceção
         JOptionPane.showMessageDialog(null, e);
     } finally {
-        // Fecha o PreparedStatement se não for nulo
         try {
             if (pst != null) pst.close();
         } catch (SQLException e) {
