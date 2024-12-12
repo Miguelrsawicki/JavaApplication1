@@ -72,6 +72,59 @@ public class TelaCliente extends javax.swing.JPanel {
     }
 }
 
+    
+    private void consultar(){
+        String sql = "SELECT * FROM cliente WHERE idcliente = ?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            int idCliente = Integer.parseInt(txtId.getText());
+            pst.setInt(1, idCliente);
+            rs=pst.executeQuery();
+            if (rs.next()) {
+                txtId.setText(rs.getString(1));
+                txtNome.setText(rs.getString(2));
+                txtEndereco.setText(rs.getString(3));
+                txtFone.setText(rs.getString(4));
+                txtEmail.setText(rs.getString(5));
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário não encontrado");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    private void  alterar(){
+        String sql="UPDATE cliente SET nomecliente=?, emailcliente=?, telefonecliente=?, enderecocliente=? WHERE idcliente=?";
+        try {
+            
+            pst=conexao.prepareStatement(sql);
+            
+            int idCliente = Integer.parseInt(txtId.getText().trim());
+            
+            BigDecimal telefone = new BigDecimal(txtFone.getText());
+            
+            pst.setString(1, txtNome.getText());
+            pst.setString(2, txtEmail.getText());
+            pst.setBigDecimal(3, telefone);
+            pst.setString(4, txtEndereco.getText());
+
+            pst.setInt(5, idCliente);
+            
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");
+        } catch(NumberFormatException e){
+            System.out.println("Erro do Id");
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+
+        
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,7 +139,7 @@ public class TelaCliente extends javax.swing.JPanel {
         txtFone = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        btnEditar = new javax.swing.JButton();
+        btnConsultar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnExcluir = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -107,15 +160,30 @@ public class TelaCliente extends javax.swing.JPanel {
 
         jLabel2.setText("Id Cliente");
 
-        btnEditar.setText("Editar");
+        btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("*Nome");
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Endereço");
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Telefone");
 
@@ -202,7 +270,7 @@ public class TelaCliente extends javax.swing.JPanel {
                                         .addGap(17, 17, 17)
                                         .addComponent(btnCadastrar)
                                         .addGap(18, 18, 18)
-                                        .addComponent(btnEditar)
+                                        .addComponent(btnConsultar)
                                         .addGap(18, 18, 18)
                                         .addComponent(btnSalvar)
                                         .addGap(18, 18, 18)
@@ -260,7 +328,7 @@ public class TelaCliente extends javax.swing.JPanel {
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
@@ -289,10 +357,22 @@ public class TelaCliente extends javax.swing.JPanel {
         cadastrar();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        consultar();
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        alterar();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
-    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JInternalFrame jInternalFrame1;
