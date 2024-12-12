@@ -92,7 +92,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 txtEndereco.setText(rs.getString(5));
                 
             } else {
-                JOptionPane.showMessageDialog(null, "Usuário não encontrado");
+                JOptionPane.showMessageDialog(null, "Cliente não encontrado");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -117,7 +117,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             pst.setInt(5, idCliente);
             
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!");
         } catch(NumberFormatException e){
             System.out.println("Erro do Id");
         }
@@ -133,7 +133,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             int idCliente = Integer.parseInt(txtId.getText().trim());
             pst.setInt(1,idCliente);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Ordem excluida com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cliente excluido com sucesso!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
